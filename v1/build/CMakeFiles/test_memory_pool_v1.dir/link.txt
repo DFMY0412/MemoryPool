@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o -o test_memory_pool_v1  libmemory_pool_v1.a 

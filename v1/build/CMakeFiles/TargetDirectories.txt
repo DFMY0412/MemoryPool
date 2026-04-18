@@ -1,0 +1,8 @@
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/memory_pool_v1.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/test_memory_pool_v1.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/edit_cache.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/rebuild_cache.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/list_install_components.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/install.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/install/local.dir
+/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles/install/strip.dir
