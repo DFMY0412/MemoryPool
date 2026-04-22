@@ -69,28 +69,28 @@ include CMakeFiles/memory_pool_v1.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/memory_pool_v1.dir/flags.make
 
-CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o: CMakeFiles/memory_pool_v1.dir/flags.make
-CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o: /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp
-CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o: CMakeFiles/memory_pool_v1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o -MF CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o.d -o CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o -c /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp
+CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o: CMakeFiles/memory_pool_v1.dir/flags.make
+CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o: /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp
+CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o: CMakeFiles/memory_pool_v1.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o -MF CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o.d -o CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o -c /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp
 
-CMakeFiles/memory_pool_v1.dir/src/MemoryPool.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_pool_v1.dir/src/MemoryPool.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp > CMakeFiles/memory_pool_v1.dir/src/MemoryPool.i
+CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp > CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.i
 
-CMakeFiles/memory_pool_v1.dir/src/MemoryPool.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_pool_v1.dir/src/MemoryPool.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp -o CMakeFiles/memory_pool_v1.dir/src/MemoryPool.s
+CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dfmy/code/cpp/project/MemmoryPool/v1/src/MemoryPool.cpp -o CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.s
 
 # Object files for target memory_pool_v1
 memory_pool_v1_OBJECTS = \
-"CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o"
+"CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o"
 
 # External object files for target memory_pool_v1
 memory_pool_v1_EXTERNAL_OBJECTS =
 
-libmemory_pool_v1.a: CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o
+libmemory_pool_v1.a: CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o
 libmemory_pool_v1.a: CMakeFiles/memory_pool_v1.dir/build.make
 libmemory_pool_v1.a: CMakeFiles/memory_pool_v1.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmemory_pool_v1.a"

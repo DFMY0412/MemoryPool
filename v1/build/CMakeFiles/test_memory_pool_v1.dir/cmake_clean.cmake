@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o"
-  "CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o.d"
+  "CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o"
+  "CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o.d"
   "test_memory_pool_v1"
   "test_memory_pool_v1.pdb"
 )

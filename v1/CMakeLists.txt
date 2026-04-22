@@ -1,4 +1,7 @@
+cmake_minimum_required(VERSION 3.10)
 project(MemoryPool_v1 LANGUAGES CXX)
+
+find_package(Threads REQUIRED)
 
 # 1. Source and Headers
 set(V1_SOURCES src/MemoryPool.cpp)

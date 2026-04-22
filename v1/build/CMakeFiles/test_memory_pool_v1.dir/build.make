@@ -69,28 +69,28 @@ include CMakeFiles/test_memory_pool_v1.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test_memory_pool_v1.dir/flags.make
 
-CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o: CMakeFiles/test_memory_pool_v1.dir/flags.make
-CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o: /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp
-CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o: CMakeFiles/test_memory_pool_v1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o -MF CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o.d -o CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o -c /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp
+CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o: CMakeFiles/test_memory_pool_v1.dir/flags.make
+CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o: /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp
+CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o: CMakeFiles/test_memory_pool_v1.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dfmy/code/cpp/project/MemmoryPool/v1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o -MF CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o.d -o CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o -c /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp
 
-CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp > CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.i
+CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp > CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.i
 
-CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp -o CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.s
+CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dfmy/code/cpp/project/MemmoryPool/v1/test/test_memory_pool.cpp -o CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.s
 
 # Object files for target test_memory_pool_v1
 test_memory_pool_v1_OBJECTS = \
-"CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o"
+"CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o"
 
 # External object files for target test_memory_pool_v1
 test_memory_pool_v1_EXTERNAL_OBJECTS =
 
-test_memory_pool_v1: CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o
+test_memory_pool_v1: CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o
 test_memory_pool_v1: CMakeFiles/test_memory_pool_v1.dir/build.make
 test_memory_pool_v1: libmemory_pool_v1.a
 test_memory_pool_v1: CMakeFiles/test_memory_pool_v1.dir/link.txt

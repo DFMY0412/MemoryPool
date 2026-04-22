@@ -187,35 +187,53 @@ test_memory_pool_v1/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/build
 .PHONY : test_memory_pool_v1/fast
 
-# target to build an object file
-src/MemoryPool.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/memory_pool_v1.dir/build.make CMakeFiles/memory_pool_v1.dir/src/MemoryPool.o
+src/MemoryPool.o: src/MemoryPool.cpp.o
 .PHONY : src/MemoryPool.o
 
-# target to preprocess a source file
-src/MemoryPool.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/memory_pool_v1.dir/build.make CMakeFiles/memory_pool_v1.dir/src/MemoryPool.i
+# target to build an object file
+src/MemoryPool.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/memory_pool_v1.dir/build.make CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.o
+.PHONY : src/MemoryPool.cpp.o
+
+src/MemoryPool.i: src/MemoryPool.cpp.i
 .PHONY : src/MemoryPool.i
 
-# target to generate assembly for a file
-src/MemoryPool.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/memory_pool_v1.dir/build.make CMakeFiles/memory_pool_v1.dir/src/MemoryPool.s
+# target to preprocess a source file
+src/MemoryPool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/memory_pool_v1.dir/build.make CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.i
+.PHONY : src/MemoryPool.cpp.i
+
+src/MemoryPool.s: src/MemoryPool.cpp.s
 .PHONY : src/MemoryPool.s
 
-# target to build an object file
-test/test_memory_pool.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.o
+# target to generate assembly for a file
+src/MemoryPool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/memory_pool_v1.dir/build.make CMakeFiles/memory_pool_v1.dir/src/MemoryPool.cpp.s
+.PHONY : src/MemoryPool.cpp.s
+
+test/test_memory_pool.o: test/test_memory_pool.cpp.o
 .PHONY : test/test_memory_pool.o
 
-# target to preprocess a source file
-test/test_memory_pool.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.i
+# target to build an object file
+test/test_memory_pool.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.o
+.PHONY : test/test_memory_pool.cpp.o
+
+test/test_memory_pool.i: test/test_memory_pool.cpp.i
 .PHONY : test/test_memory_pool.i
 
-# target to generate assembly for a file
-test/test_memory_pool.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.s
+# target to preprocess a source file
+test/test_memory_pool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.i
+.PHONY : test/test_memory_pool.cpp.i
+
+test/test_memory_pool.s: test/test_memory_pool.cpp.s
 .PHONY : test/test_memory_pool.s
+
+# target to generate assembly for a file
+test/test_memory_pool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_memory_pool_v1.dir/build.make CMakeFiles/test_memory_pool_v1.dir/test/test_memory_pool.cpp.s
+.PHONY : test/test_memory_pool.cpp.s
 
 # Help Target
 help:
