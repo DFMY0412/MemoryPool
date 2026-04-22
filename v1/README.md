@@ -52,9 +52,101 @@ HashBucket (单例)
   - `deallocate(void *ptr)`：将槽插回 `freeList_` 头部（无锁 CAS）。
   - `allocateNewBlock()`：申请新的大块内存，切分成多个槽，并更新 `firstBlock_` 与 `curSlot_`。
 
+### 2.4 数据结构说明
+
+#### 2.4.1 Slot 结构体
+
+```cpp
+struct Slot {
+    std::atomic<Slot *> next; // 原子指针，指向下一个空闲槽
+};
+```
+
+- **用途**：表示内存池中的空闲槽节点，通过 next 指针串联成单链表
+- **特点**：使用 `std::atomic` 实现无锁操作，`sizeof(Slot)` 仅为指针大小（8字节）
+- **注意**：实际的槽大小（SlotSize）大于 `sizeof(Slot*)`，因为数据区不包含 next 指针
+
+#### 2.4.2 MemoryPool 类成员变量详解
+
+| 成员变量 | 类型 | 说明 |
+|---------|------|------|
+| `BlockSize_` | `size_t` | 每次向系统申请的大块内存大小（默认 4096 字节） |
+| `SlotSize_` | `size_t` | 当前内存池管理的槽大小（8 的倍数，≤512） |
+| `firstBlock_` | `std::atomic<Slot*>` | 指向首个大块内存，用于析构时遍历释放所有内存 |
+| `curSlot_` | `std::atomic<Slot*>` | 指向当前大块内存中下一个可分配的槽位置 |
+| `lastSlot_` | `std::atomic<Slot*>` | 标记当前大块内存的结束位置，用于判断块是否用尽 |
+| `freeList_` | `std::atomic<Slot*>` | 无锁空闲链表头指针，存储被释放后可复用的槽 |
+| `mutexForBlock_` | `std::mutex` | 互斥锁，仅在 `allocateNewBlock()` 中使用 |
+
+#### 2.4.3 内存布局示意
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    大块内存 (BlockSize_)                  │
+├──────────────┬──────────────────────────────────────────┤
+│  Slot* next  │              数据区 (SlotSize_)           │
+│  (8 bytes)   │              (如 16 bytes)                │
+└──────────────┴──────────────────────────────────────────┘
+      ↓                    ↓                    ↓
+   [ Slot ] ←──next── [ Slot ] ←──next── [ Slot ] ←── ...
+```
+
+#### 2.4.4 HashBucket 静态方法详解
+
+| 方法 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| `initMemoryPool()` | 无 | void | 初始化 64 个内存池，槽大小为 8~512 字节 |
+| `getMemoryPool(index)` | index: 0~63 | MemoryPool& | 返回对应索引的内存池引用 |
+| `useMemory(size)` | size: 请求字节数 | void* | 分配内存，≤512 用内存池，否则用 operator new |
+| `freeMemory(ptr, size)` | ptr: 指针, size: 大小 | void | 释放内存，小于等于 512 归还内存池 |
+
+## 3. 函数说明
+
+### 3.1 MemoryPool 类函数
+
+#### 3.1.1 构造与初始化
+
+| 函数 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| `MemoryPool(size_t BlockSize = 4096)` | BlockSize: 每个内存块的大小（默认 4096 字节） | 无 | 构造函数，初始化成员变量，但不分配内存 |
+| `~MemoryPool()` | 无 | 无 | 析构函数，释放所有通过 firstBlock_ 管理的内存块 |
+| `init(size_t SlotSize)` | SlotSize: 槽大小（8 的倍数，≤512） | 无 | 设置槽大小并分配第一个内存块 |
+
+#### 3.1.2 内存分配与释放
+
+| 函数 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| `allocate()` | 无 | void* | 分配一个槽：优先从空闲链表取，否则从当前块取，必要时分配新块 |
+| `deallocate(void* ptr)` | ptr: 待释放的指针 | 无 | 将槽归还到空闲链表头部（无锁） |
+| `allocateNewBlock()` | 无 | 无 | 分配一大块内存并切分成多个槽，更新块链表及当前指针（加锁） |
+
+#### 3.1.3 辅助函数
+
+| 函数 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| `padPointer(char* p, size_t align)` | p: 原始地址, align: 对齐字节数 | size_t | 计算需填充多少字节才能对齐到 align |
+| `pushFreeList(Slot* slot)` | slot: 待插入的空闲槽 | bool | 用 CAS 将槽插入 freeList_ 头部（无锁），始终返回 true |
+| `popFreeList()` | 无 | Slot* | 用 CAS 从 freeList_ 头部弹出一个空闲槽（无锁），链表空则返回 nullptr |
+
+### 3.2 HashBucket 类函数
+
+| 函数 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| `initMemoryPool()` | 无 | void | 初始化 64 个内存池，槽大小依次为 8~512 字节 |
+| `getMemoryPool(int index)` | index: 内存池索引（0~63） | MemoryPool& | 返回对应索引的内存池引用 |
+| `useMemory(size_t size)` | size: 请求大小 | void* | size≤512 则从对应内存池分配，否则直接 operator new |
+| `freeMemory(void* ptr, size_t size)` | ptr: 待释放指针, size: 原请求大小 | void | 根据 size 决定归还到内存池或调用 operator delete |
+
+### 3.3 全局模板函数
+
+| 函数 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| `newElement<T>(Args&&... args)` | args: 构造参数 | T* | 通过 useMemory 分配内存，然后 placement new 构造对象 |
+| `deleteElement<T>(T* p)` | p: 对象指针 | void | 调用析构函数，再通过 freeMemory 归还内存 |
+
 ---
 
-## 3. 关键实现细节
+## 4. 关键实现细节
 
 ### 3.1 无锁空闲链表（Lock‑Free Free List）
 
@@ -224,132 +316,4 @@ pool.deallocate(mem);
 - **支持更大对象**：可扩展哈希桶范围至 1KB 或更大。
 - **内存回收机制**：当空闲链表过长时，归还部分大块内存给操作系统。
 
----
 
-## 7. 编译与运行
-
-### 7.1 编译依赖
-
-- C++11 或更高版本编译器（支持 `std::atomic`）
-- CMake 3.10+（可选）
-
-### 7.2 示例编译命令（手动）
-
-```bash
-g++ -std=c++14 -O2 -pthread test.cpp MemoryPool.cpp -o test_memory_pool
-```
-
-### 7.3 运行测试
-
-```bash
-./test_memory_pool
-```
-
-输出类似：
-
-```
-=== Single-thread performance ===
-MemoryPool: 953 ms, 1.049e+06 ops/ms
-new/delete: 743 ms, 1.346e+06 ops/ms
-...
-```
-
----
-
-**文档版本**：1.0  
-**最后更新**：2026-04-18
-
-
-###### 核心分配与释放流程
-```mermaid
-flowchart TD
-    Start([用户调用 newElement]) --> CheckSize{大小 <= 512?}
-    
-    %% 大对象路径
-    CheckSize -- 否 --> SysAlloc[operator new]
-    SysAlloc --> Construct["构造对象 (Placement New)"]
-    Construct --> Return([返回指针])
-
-    %% 小对象路径
-    CheckSize -- 是 --> GetPool[获取对应内存池]
-    GetPool --> PopFree{"空闲链表有货？\n(popFreeList CAS)"}
-    
-    PopFree -- 有 --> Construct
-    PopFree -- 无 --> Lock["加锁 (lock_guard)"]
-    
-    Lock --> CheckBlock{当前块用完？}
-    CheckBlock -- 是 --> NewBlock["申请新大块内存\n(allocateNewBlock)"]
-    NewBlock --> UpdatePtr[更新指针]
-    UpdatePtr --> AllocSlot
-    
-    CheckBlock -- 否 --> AllocSlot[从 curSlot 切割]
-    AllocSlot --> MovePtr[curSlot 后移]
-    MovePtr --> Unlock[解锁]
-    Unlock --> Construct
-
-    %% 释放路径
-    DelStart([用户调用 deleteElement]) --> Destruct["调用析构 (~T())"]
-    Destruct --> CheckFree{大小 <= 512?}
-    
-    CheckFree -- 否 --> SysFree[operator delete]
-    SysFree --> End([结束])
-    
-    CheckFree -- 是 --> PushFree{"推入空闲链表\n(pushFreeList CAS)"}
-    PushFree -- 失败 --> PushFree
-    PushFree -- 成功 --> End
-  ```
----
-
-
-###### CAS 无锁逻辑细节
-```mermaid
-flowchart TD
-    subgraph Pop [出队 popFreeList]
-        P1[读取 head] --> P2{head 为空？}
-        P2 -- 是 --> PRet1[返回 nullptr]
-        P2 -- 否 --> P3[读取 head->next]
-        P3 --> P4[CAS 更新头指针]
-        P4 -- 失败 --> P1
-        P4 -- 成功 --> PRet2[返回 head]
-    end
-
-    subgraph Push [入队 pushFreeList]
-        S1[读取 oldHead] --> S2["新节点 next = oldHead"]
-        S2 --> S3[CAS 更新头指针]
-        S3 -- 失败 --> S1
-        S3 -- 成功 --> SRet[返回 true]
-    end
-```
-
----
-
-###### 内存块生命周期状态图
-```mermaid
-stateDiagram-v2
-    [*] --> Unallocated: 系统未分配
-    Unallocated --> ActiveBlock: operator new 申请大块 (BlockSize)
-    
-    state ActiveBlock {
-        direction LR
-        Fresh: 刚申请<br/>curSlot 指向起始
-        PartiallyUsed: 部分分配<br/>curSlot 向后移动
-        Exhausted: 已耗尽<br/>curSlot >= lastSlot
-    }
-
-    ActiveBlock --> Fresh
-    Fresh --> PartiallyUsed: 分配槽 (allocate)
-    PartiallyUsed --> PartiallyUsed: 继续分配
-    PartiallyUsed --> Exhausted: 分配最后一个槽
-    
-    Exhausted --> NewBlockNeeded: 需要更多内存
-    NewBlockNeeded --> Unallocated: (触发 allocateNewBlock 创建新块)
-    
-    note right of ActiveBlock
-      空闲槽可能被用户释放
-      回到 freeList_ (无锁链表)
-      供后续 allocate 复用
-    end note
-
-    ActiveBlock --> Destroyed: 程序结束 / 析构
-    Destroyed --> [*]: operator delete 释放
-```
